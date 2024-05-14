@@ -1,0 +1,131 @@
+<%- include ('partials/header.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+    rel="stylesheet"
+  />  
+  <link rel="stylesheet" href="/css/style.css" />
+    <title>Hajj Kabba</title>
+
+    <style>
+  .notification {
+    background-color: #d73842 !important;
+  }
+   </style>  
+  </head>
+  
+  <body>
+    <!-- HOME SECTION -->
+    <div class="container">
+      <div class="container__left">
+        <h1>Popular Places of Mecca</h1>
+        <div class="container__btn">
+          <button class="btn"><a href=#post-container-h>See Now</a></button>
+        </div>
+      </div>
+      <div class="container__right">
+        <div class="images">
+          <img src="/home-images/homehaj1.jpg" alt="tent-1" class="tent-1" />
+          <img src="/home-images/hajj-kabbah2.jpg" alt="tent-2" class="tent-2" />
+        </div>
+        <div class="content">
+          <h4>Hajj | Kabba</h4>
+          <h2>MECCA</h2>
+          <h3>The holiest city for Muslims</h3>
+          <p>
+            Hajj is a mandatory religious duty for Muslims that must be carried 
+            out at least once in their lifetime by all adult Muslims who are 
+            physically and financially capable of undertaking the journey,
+             and of supporting their family during their absence from home.
+          </p>
+        </div>
+      </div>
+      <div class="location">
+        <span><i class="ri-map-pin-2-fill"></i></span>
+        LOCATIONS
+      </div>
+      <div class="socials">
+        <span>
+          <a href="#"><i class="ri-facebook-fill"></i></a>
+        </span>
+        <span>
+          <a href="#"><i class="ri-instagram-line"></i></a>
+        </span>
+        <span>
+          <a href="#"><i class="ri-twitter-fill"></i></a>
+        </span>
+      </div>
+    </div>
+
+    <!-- POST SECTION -->
+    <div class="post-container-h" id="post-container-h">
+      <h2>Most Populer Places In Mecca</h2>
+     
+    </div>
+    <div class="post-container">
+      <% posts.forEach(post => { %>
+      <div class="mycard">
+        <div class="cimg">
+
+          <% if (post.image) { %>
+          <img
+             src="<%= post.image %>"
+             alt="<%= post.title %>"
+            class="tent-3"
+          /> 
+          <% } %>
+        </div>
+        <div class="cdetail">
+          <h2><%= post.title %></h2>
+          <p><%= post.body %><span><a href="#">more</a></span></p>
+          
+          <form id="deleteForm_<%= post.id %>" action="/delete/<%= post.id %>" method="POST">
+            <div>
+          <button type="button" class="btn cbtn delete-button" data-post-id="<%= post.id %>">Delete</button></form>
+         <a href="/edit/<%= post.id %>" class="btn cbtn edit-button">Edit</a>
+        </div>
+        </div>
+       
+      </div> 
+      <% }) %>   
+    </div>
+   
+  </div>
+
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="/js/scrollScript.js"></script>
+  <script src="/js/script.js"></script>
+  <script>
+ document.querySelectorAll('.delete-button').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default form submission behavior
+      var postId = this.dataset.postId;
+      if (confirm("Are you sure you want to delete this post?")) {
+        // Show notification after confirmation
+        showNotification("Post deleted successfully!");
+        // Submit the form after a delay
+        setTimeout(() => {
+          document.getElementById('deleteForm_' + postId).submit();
+          // window.location.href = "/";
+        }, 3000); // the delay as needed
+      }
+    });
+  });
+
+  // Function to show notification with fade-in and fade-out animation
+  function showNotification(message) {
+    const notificationDiv = document.getElementById('notification');
+    notificationDiv.textContent = message;
+    notificationDiv.classList.add('show');
+    setTimeout(() => {
+      notificationDiv.classList.remove('show');
+    }, 3000); // Adjust the timeout as needed for the animation duration
+  }
+  </script>
+    <%- include ('partials/footer.ejs') %>
+  </body>
+</html>

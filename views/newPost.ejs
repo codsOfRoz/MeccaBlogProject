@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mecca Blog</title>
+    <link rel="stylesheet" href="/css/style.css">
+   <link rel="stylesheet" href="/css/newPost.css">  
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+    <div class="newPost-container">
+      <div class="contact-box">
+        <div class="left">
+          <img
+          id="imagePreview" alt=""/>
+        </div>
+        <div class="right">
+    <form id="newPostForm" action="/newPost" method="POST" enctype="multipart/form-data">
+        <div>
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-input"
+            required
+          />
+        </div>
+        <div>
+          <label for="body" class="form-label">Description</label>
+          <textarea
+            class="form-input"
+            id="body"
+            rows="5"
+            name="body"
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label for="image" class="form-label">Upload Image</label>
+          <input
+            type="file"
+            class="form-input"
+            id="image"
+            name="image"
+            onchange="ImagePreview(event)"
+          />
+        </div>
+  </div>
+ <div>
+  <button class="submit-btn"  onclick="submitForm()">Submit</button>
+</div>
+      </div>
+</div>
+    </form>
+    <script src="/js/script.js"></script>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script>
+function submitForm() {
+  // Check if input fields are filled
+  var title = document.getElementById('title').value.trim();
+  var body = document.getElementById('body').value.trim();
+
+  if (title !== '' && body !== '') {
+    // Show notification
+    showNotification("Post submitted successfully!");
+    // Submit the form after a delay
+    setTimeout(() => {
+      document.getElementById('newPostForm').submit();
+      window.location.href = "/";
+    }, 3000); // Adjust the timeout as needed for the animation duration
+  }
+}
+      // Function to show notification with fade-in and fade-out animation
+      function showNotification(message) {
+        const notificationDiv = document.getElementById('notification');
+        notificationDiv.textContent = message;
+        notificationDiv.classList.add('show');
+        setTimeout(() => {
+          notificationDiv.classList.remove('show');
+        }, 3000); // Adjust the timeout as needed for the animation duration
+      }
+    </script>
+<%- include ('partials/footer.ejs') %>
+</body>
+</html>
